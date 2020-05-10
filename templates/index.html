@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+{% endblock %}
+
+{% block body %}
+<div class="container h3">Current Average Temperature: {{ data.get("avg_current", "ERROR") }}&deg;C</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="day_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="week_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="month_chart"></div>
+            </div>
+        </div>
+    </div>
+</div><br>
+
+<div class="container h3">Sensor Readings:</div>
+<div class="row">
+    {% for col in data.get("last_reading", []) %}
+        <div class="col-sm-4">
+            <div class="panel-body">
+                <ul class="list-group">
+                    {% for row in data.get("last_reading", [])[col] %}
+                        <li class="list-group-item">
+                            <span class="badge">{{ data.get("last_reading", [])[col][row] }}&deg;C</span>
+                            {{ row }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    {% autoescape false %}
+    Plotly.newPlot(
+        'day_chart',
+        [{
+            x: ['{{ "','".join(data.get("avg_day").keys()) }}'],
+            y: [{{ ",".join(data.get("avg_day").values()) }}],
+            mode: 'scatter'
+        }],
+        {
+            title: "Past 24 Hours",
+            xaxis: {
+                type: 'date',
+                range: ['0']
+            },
+            yaxis: {type: 'linear', range: [{{ data.get("avg_day_min") }}, {{ data.get("avg_day_max") }}]}
+        },
+        {displayModeBar: false});
+
+
+    Plotly.newPlot(
+        'week_chart',
+        [{
+            x: ['{{ "','".join(data.get("avg_seven").keys()) }}'],
+            y: [{{ ",".join(data.get("avg_seven").values()) }}],
+            mode: 'scatter'
+        }],
+        {
+            title: "Past 7 Days",
+            xaxis: {
+                type: 'date',
+                range: ['0']
+            },
+            yaxis: {type: 'linear', range: [{{ data.get("avg_seven_min") }}, {{ data.get("avg_seven_max") }}]}
+        },
+        {displayModeBar: false});
+
+    Plotly.newPlot(
+        'month_chart',
+        [{
+            x: ['{{ "','".join(data.get("avg_thirty").keys()) }}'],
+            y: [{{ ",".join(data.get("avg_thirty").values()) }}],
+            mode: 'scatter'
+        }],
+        {
+            title: "Past 30 Days",
+            xaxis: {
+                type: 'date',
+                range: ['0']
+            },
+            yaxis: {type: 'linear', range: [{{ data.get("avg_thirty_min") }}, {{ data.get("avg_thirty_max") }}]}
+        },
+        {displayModeBar: false});
+    {% endautoescape %}
+</script>
+{% endblock %}

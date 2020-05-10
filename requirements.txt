@@ -1,0 +1,10 @@
+aiohttp_wsgi
+bitstring
+flask
+flask-admin
+flask-basicauth
+pyserial
+sqlalchemy
+
+psycopg2
+influxdb

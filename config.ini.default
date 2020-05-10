@@ -1,0 +1,12 @@
+[serial]
+port = COM5
+baud = 115200
+rate = 5
+
+[webserver]
+enable = True
+host = 0.0.0.0
+port = 8080
+
+[storage]
+uri = sqlite:///./database.sqlite

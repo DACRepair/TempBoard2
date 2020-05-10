@@ -1,0 +1,15 @@
+[Unit]
+Description=TempBoard Temperature Monitoring System
+After=syslog.target
+
+[Service]
+Type=simple
+User=tempboard
+Group=tempboard
+WorkingDirectory=/opt/TempBoard2
+ExecStart=/opt/TempBoard2/app.py
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
