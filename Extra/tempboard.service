@@ -7,7 +7,7 @@ Type=simple
 User=tempboard
 Group=tempboard
 WorkingDirectory=/opt/TempBoard2
-ExecStart=/opt/TempBoard2/app.py
+ExecStart=/opt/TempBoard2/run.py
 StandardOutput=syslog
 StandardError=syslog
 
