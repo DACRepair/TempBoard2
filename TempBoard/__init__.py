@@ -67,8 +67,8 @@ class TempIndexView(IndexView):
                                          first_hour.replace(hour=x, minute=59, second=58)))]), 2) for x in last_day})
         avg_day = OrderedDict(
             {(now - datetime.timedelta(hours=x)).strftime("%Y-%m-%d %H:%M:%S"): y for x, y in avg_day.items()})
-        data.update({"avg_day_max": max(avg_day.values()),
-                     "avg_day_min": min(avg_day.values()) if min(avg_day.values()) < 0 else 0})
+        data.update({"avg_day_max": max(avg_day.values()) if len(avg_day.values()) > 0 else 0,
+                     "avg_day_min": min(avg_day.values()) if len(avg_day.values()) > 0 else 0})
         data.update({"avg_day_max": data["avg_day_max"] + (data["avg_day_max"] / 2)})
         data.update({"avg_day": OrderedDict({x: str(y) for x, y in avg_day.items()})})
 

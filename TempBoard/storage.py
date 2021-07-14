@@ -10,9 +10,17 @@ _engine = create_engine(_config.get('storage', 'uri', "sqlite:///./database.sqli
 
 Base = declarative_base(bind=_engine)
 
+if str(_engine.engine.url).startswith("sqlite"):
+    _session = sessionmaker(bind=_engine)()
+else:
+    _session = None
+
 
 def Session() -> _Session:
-    return scoped_session(sessionmaker(bind=_engine))()
+    if _session is None:
+        return scoped_session(sessionmaker(bind=_engine))()
+    else:
+        return _session
 
 
 class Setting(Base):

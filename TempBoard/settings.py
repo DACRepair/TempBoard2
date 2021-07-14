@@ -18,9 +18,9 @@ class Settings(object):
     def __setup__(self):
         defaults = {
             'site_name': 'Temp Monitor',
-            'username': 'admin',
-            'password': 'admin',
-            'influx_enable': 'Y',
+            'username': '',
+            'password': '',
+            'influx_enable': 'N',
             'influx_host': '127.0.0.1',
             'influx_port': '8086',
             'influx_ssl': 'N',
@@ -54,11 +54,15 @@ class Settings(object):
 
     @property
     def username(self) -> str:
-        return self.__query__('username')
+        username = self.__query__('username')
+        username = None if username == "" else username
+        return username
 
     @property
     def password(self) -> str:
-        return self.__query__('password')
+        password = self.__query__('password')
+        password = None if password == "" else password
+        return password
 
     @property
     def influx_enable(self) -> bool:
